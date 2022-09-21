@@ -3,6 +3,7 @@ package Page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +35,7 @@ public class PopupPage extends BasePage {
     @FindBy(css = ".awe-ajaxlist li")
     private List<WebElement> chefs;
 
-    @FindBy(css = "#createDinnerChef-awepw .awe-scon")
+    @FindBy(css = ".awe-selectable")
     private WebElement chefList;
 
     @FindBy(xpath = "//div[@data-i='createDinnerChef-awepw']/descendant::button[@class='awe-btn awe-okbtn o-pbtn']")
@@ -55,7 +56,7 @@ public class PopupPage extends BasePage {
     public PopupPage clickOnChefSelection() {
         click(chefBtn);
         logger.info("Click on Chef Selection");
-        scheduleWait(300);
+        scheduleWait(200);
         return this;
     }
 
@@ -74,9 +75,9 @@ public class PopupPage extends BasePage {
     }
 
     public void getText(WebElement element) {
-        scheduleWait(300);
+        scheduleWait(200);
         String chef = element.getText();
-        logger.info("Chef selected " + chef);
+        logger.info("Chef selected: " + chef);
     }
 
     public void selectRandomBonusMeal() {
@@ -84,14 +85,14 @@ public class PopupPage extends BasePage {
         WebElement item = getRandomElement(dropDownItems);
         click(item);
         String bonusMeal = dropdownBtn.getText();
-        logger.info("Bonus meal selected " + bonusMeal);
+        logger.info("Bonus meal selected: " + bonusMeal);
     }
 
     public PopupPage setUpName() {
         waitToBeVisible(nameInput);
         String name = "Meal of The Day";
         sendKeys(nameInput, name);
-        logger.info("Entering input " + name);
+        logger.info("Entering input: " + name);
         return this;
     }
 }
