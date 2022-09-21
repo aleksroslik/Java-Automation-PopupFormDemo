@@ -3,6 +3,7 @@ package Page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,24 +56,14 @@ public class PopupPage extends BasePage {
     public PopupPage clickOnChefSelection() {
         click(chefBtn);
         logger.info("Click on Chef Selection");
+        scheduleWait(300);
         return this;
     }
 
     public PopupPage selectRandomChef() {
-        //waitToBeClickable(chefList);
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         getRandomElementAndClick(chefs);
         waitToBeClickable(chefOKBtn);
         click(chefOKBtn);
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         getText(caption);
         return this;
     }
@@ -84,7 +75,7 @@ public class PopupPage extends BasePage {
     }
 
     public void getText(WebElement element) {
-        waitToBeVisible(element);
+        scheduleWait(300);
         String chef = element.getText();
         logger.info("Chef selected " + chef);
     }
@@ -99,7 +90,7 @@ public class PopupPage extends BasePage {
 
     public PopupPage setUpName() {
         waitToBeVisible(nameInput);
-        String name = "test";
+        String name = "Meal of The Day";
         sendKeys(nameInput, name);
         logger.info("Entering input " + name);
         return this;
