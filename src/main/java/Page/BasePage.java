@@ -34,7 +34,7 @@ public class BasePage {
         element.click();
     }
 
-    public void takeScreenshot() throws IOException {
+    public void takeScreenshot(WebDriver driver) throws IOException {
         File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(screenshotFile, new File(".//src/main/resources/screenshot/screen.png"));
     }

@@ -2,6 +2,7 @@ package Test;
 
 import Base.BaseTest;
 import Page.PopupFormPage;
+import Page.PopupPage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -12,14 +13,19 @@ public class PopupFormTest extends BaseTest {
     private static final Logger logger = LoggerFactory.getLogger(PopupFormPage.class);
 
     PopupFormPage popupFormPage = new PopupFormPage(driver);
+    PopupPage popupPage = new PopupPage(driver);
 
     @Test
     @DisplayName("Popup Form Test")
     public void fillInPopupForm() {
-        popupFormPage.openPopup()
-                     .setUpName()
-                     .clickOnDropdownList()
-                     .selectRandomBonusMeal();
+        popupFormPage.openPopup();
+
+        popupPage
+                .setUpName()
+                .clickOnChefSelection()
+                .selectRandomChef()
+                .clickOnDropdownList()
+                .selectRandomBonusMeal();
     }
 
 }
