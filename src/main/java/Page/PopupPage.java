@@ -3,7 +3,6 @@ package Page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +46,12 @@ public class PopupPage extends BasePage {
     @FindBy(className = "awe-caption")
     private WebElement caption;
 
+    @FindBy(css = "div.awe-lookup-field.awe-field:nth-child(1) div.awe-empty")
+    private WebElement emptyCaption;
+
+    @FindBy(className = "awe-morebtn")
+    private WebElement moreBtn;
+
     public PopupPage clickOnDropdownList() {
         click(dropdownBtn);
         logger.info("Click on Dropdown");
@@ -56,11 +61,12 @@ public class PopupPage extends BasePage {
     public PopupPage clickOnChefSelection() {
         click(chefBtn);
         logger.info("Click on Chef Selection");
-        scheduleWait(200);
+        scheduleWait(300);
         return this;
     }
 
     public PopupPage selectRandomChef() {
+        scrollAndClick(moreBtn);
         getRandomElementAndClick(chefs);
         waitToBeClickable(chefOKBtn);
         click(chefOKBtn);
@@ -75,7 +81,7 @@ public class PopupPage extends BasePage {
     }
 
     public void getText(WebElement element) {
-        scheduleWait(200);
+        waitForInvisibilityOf(emptyCaption);
         String chef = element.getText();
         logger.info("Chef selected: " + chef);
     }
@@ -94,5 +100,10 @@ public class PopupPage extends BasePage {
         sendKeys(nameInput, name);
         logger.info("Entering input: " + name);
         return this;
+    }
+
+    public void scrollAndClick(WebElement element) {
+        scrollTo(element);
+        click(element);
     }
 }

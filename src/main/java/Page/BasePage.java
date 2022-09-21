@@ -69,6 +69,8 @@ public class BasePage {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
+    public void waitForInvisibilityOf(WebElement element) { wait.until(ExpectedConditions.invisibilityOf(element));}
+
     public void waitForElementsVisibility(List<WebElement> elements) {
         wait.until(ExpectedConditions.visibilityOfAllElements(elements));
     }
@@ -91,6 +93,11 @@ public class BasePage {
         } catch(Exception e){
             throw new RuntimeException(e);
         }
+    }
+
+    public void scrollTo(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor)driver;
+        js.executeScript("arguments[0].scrollIntoView(true);", element);
     }
 }
 
