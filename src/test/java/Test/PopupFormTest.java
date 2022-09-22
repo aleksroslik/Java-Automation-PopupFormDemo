@@ -22,6 +22,8 @@ public class PopupFormTest extends BaseTest {
 
         popupPage
                 .setUpName()
+                .clickOnDatePickerBtn()
+                .selectDate()
                 .clickOnChefSelection()
                 .selectRandomChef()
                 .clickOnMealsSelection()

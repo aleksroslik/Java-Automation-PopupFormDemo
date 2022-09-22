@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Month;
 import java.util.List;
 
 public class PopupPage extends BasePage {
@@ -69,6 +70,24 @@ public class PopupPage extends BasePage {
 
     @FindBy(className = "awe-morebtn")
     private WebElement moreBtn;
+
+    @FindBy(className = "awe-dpbtn")
+    private WebElement dateBtn;
+
+    @FindBy(id = "createDinnerDatecy-awed")
+    private WebElement datepickerYear;
+
+    @FindBy(id = "createDinnerDatecm-awed")
+    private WebElement datepickerMonth;
+
+    @FindBy(css = "#createDinnerDatecy-dropmenu .o-ditm")
+    private List<WebElement> dpDropdownYears;
+
+    @FindBy(css = "#createDinnerDatecm-dropmenu .o-ditm")
+    private List<WebElement> dpDropdownMonths;
+
+    @FindBy(css = ".o-mday.o-enb")
+    private List<WebElement> dpDaysInMonth;
 
     public PopupPage clickOnDropdownList() {
         click(dropdownBtn);
@@ -160,5 +179,48 @@ public class PopupPage extends BasePage {
     public void scrollAndClick(WebElement element) {
         scrollTo(element);
         click(element);
+    }
+
+    public PopupPage clickOnDatePickerBtn() {
+        click(dateBtn);
+        logger.info("Click on date button selection");
+        return this;
+    }
+
+    private PopupPage clickOnYearBtn() {
+        click(datepickerYear);
+        logger.info("Click on year button selection");
+        return this;
+    }
+
+    public void selectYear() {
+        clickOnYearBtn();
+        getRandomElementAndClick(dpDropdownYears);
+        logger.info("Year selected");
+    }
+
+    public PopupPage clickOnMonthBtn() {
+        click(datepickerMonth);
+        logger.info("Click on month button selection");
+        return this;
+    }
+
+    public void selectMonth() {
+        clickOnMonthBtn();
+        getRandomElementAndClick(dpDropdownMonths);
+        logger.info("Month selected");
+    }
+
+    public void selectDay() {
+        getRandomElementAndClick(dpDaysInMonth);
+        logger.info("Day selected");
+    }
+
+    public PopupPage selectDate() {
+        selectYear();
+        selectMonth();
+        selectDay();
+        logger.info("Date selected");
+        return this;
     }
 }
