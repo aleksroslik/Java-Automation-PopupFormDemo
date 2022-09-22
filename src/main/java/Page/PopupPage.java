@@ -34,9 +34,6 @@ public class PopupPage extends BasePage {
     @FindBy(css = ".awe-ajaxlist li")
     private List<WebElement> chefs;
 
-    @FindBy(css = ".awe-selectable")
-    private WebElement chefList;
-
     @FindBy(xpath = "//div[@data-i='createDinnerChef-awepw']/descendant::button[@class='awe-btn awe-okbtn o-pbtn']")
     private WebElement chefOKBtn;
 
@@ -44,10 +41,10 @@ public class PopupPage extends BasePage {
     private WebElement dropdownBtn;
 
     @FindBy(className = "awe-caption")
-    private WebElement caption;
+    private WebElement chefCaption;
 
     @FindBy(css = "div.awe-lookup-field.awe-field:nth-child(1) div.awe-empty")
-    private WebElement emptyCaption;
+    private WebElement emptyChefCaption;
 
     @FindBy(className = "awe-morebtn")
     private WebElement moreBtn;
@@ -61,16 +58,16 @@ public class PopupPage extends BasePage {
     public PopupPage clickOnChefSelection() {
         click(chefBtn);
         logger.info("Click on Chef Selection");
-        scheduleWait(300);
         return this;
     }
 
     public PopupPage selectRandomChef() {
+        waitToBeClickable(moreBtn);
         scrollAndClick(moreBtn);
         getRandomElementAndClick(chefs);
         waitToBeClickable(chefOKBtn);
         click(chefOKBtn);
-        getText(caption);
+        getText(chefCaption);
         return this;
     }
 
@@ -81,7 +78,7 @@ public class PopupPage extends BasePage {
     }
 
     public void getText(WebElement element) {
-        waitForInvisibilityOf(emptyCaption);
+        waitForInvisibilityOf(emptyChefCaption);
         String chef = element.getText();
         logger.info("Chef selected: " + chef);
     }
