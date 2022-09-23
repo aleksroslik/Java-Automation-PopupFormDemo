@@ -6,7 +6,6 @@ import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Month;
 import java.util.List;
 
 public class PopupPage extends BasePage {
@@ -20,9 +19,6 @@ public class PopupPage extends BasePage {
     @FindBy(id = "createDinnerName-awed")
     private WebElement nameInput;
 
-    @FindBy()
-    private List<WebElement> calendar;
-
     @FindBy(css = "#createDinnerBonusMealId-dropmenu .o-itsc")
     private WebElement dropdownList;
 
@@ -30,7 +26,7 @@ public class PopupPage extends BasePage {
     private List<WebElement> dropDownItems;
 
     @FindBy(css = "div.awe-lookup-field.awe-field:nth-child(1) .awe-lkpbtn")
-    private WebElement chefBtn;
+    private WebElement chefDropdownBtn;
 
     @FindBy(css = ".awe-ajaxlist li")
     private List<WebElement> chefs;
@@ -39,7 +35,7 @@ public class PopupPage extends BasePage {
     private WebElement chefOKBtn;
 
     @FindBy(css = "div.awe-multilookup-field.awe-field:nth-child(1) .awe-lkpbtn")
-    private WebElement mealsBtn;
+    private WebElement mealsDropdownBtn;
 
     @FindBy(css = ".awe-ajaxlist li button")
     private List<WebElement> meals;
@@ -60,7 +56,7 @@ public class PopupPage extends BasePage {
     private WebElement emptyMealCaption;
 
     @FindBy(css = "button#createDinnerBonusMealId-awed")
-    private WebElement dropdownBtn;
+    private WebElement bonusMealDropdownBtn;
 
     @FindBy(className = "awe-caption")
     private WebElement chefCaption;
@@ -69,16 +65,19 @@ public class PopupPage extends BasePage {
     private WebElement emptyChefCaption;
 
     @FindBy(className = "awe-morebtn")
-    private WebElement moreBtn;
+    private WebElement moreChefBtn;
 
     @FindBy(className = "awe-dpbtn")
     private WebElement dateBtn;
 
+    @FindBy(css = ".awe-dtp.awe-display.awe-val.awe-txt")
+    private WebElement dateInput;
+
     @FindBy(id = "createDinnerDatecy-awed")
-    private WebElement datepickerYear;
+    private WebElement datePickerYear;
 
     @FindBy(id = "createDinnerDatecm-awed")
-    private WebElement datepickerMonth;
+    private WebElement datePickerMonth;
 
     @FindBy(css = "#createDinnerDatecy-dropmenu .o-ditm")
     private List<WebElement> dpDropdownYears;
@@ -89,21 +88,22 @@ public class PopupPage extends BasePage {
     @FindBy(css = ".o-mday.o-enb")
     private List<WebElement> dpDaysInMonth;
 
-    public PopupPage clickOnDropdownList() {
-        click(dropdownBtn);
-        logger.info("Click on Dropdown");
+    public PopupPage clickOnBonusMealDropdownList() {
+        click(bonusMealDropdownBtn);
+        logger.info("Click on Bonus Meal Dropdown");
         return this;
     }
 
     public PopupPage clickOnChefSelection() {
-        click(chefBtn);
+        waitToBeClickable(chefDropdownBtn);
+        click(chefDropdownBtn);
         logger.info("Click on Chef Selection");
         return this;
     }
 
     public PopupPage selectRandomChef() {
-        waitToBeClickable(moreBtn);
-        scrollAndClick(moreBtn);
+        waitToBeClickable(moreChefBtn);
+        scrollAndClick(moreChefBtn);
         getRandomElementAndClick(chefs);
         waitToBeClickable(chefOKBtn);
         click(chefOKBtn);
@@ -112,7 +112,7 @@ public class PopupPage extends BasePage {
     }
 
     public PopupPage clickOnMealsSelection() {
-        click(mealsBtn);
+        click(mealsDropdownBtn);
         logger.info("Click on Meals Selection");
         return this;
     }
@@ -128,7 +128,6 @@ public class PopupPage extends BasePage {
         waitForElementsVisibility(mealsCaption);
         for (int i = 0; i < mealsCaption.size(); i++) {
             waitForInvisibilityOf(emptyMealCaption);
-            waitToBeVisible(mealsCaptionList);
             getMealText(mealsCaption.get(i));
         }
         return this;
@@ -156,6 +155,7 @@ public class PopupPage extends BasePage {
     }
 
     public void getMealText(WebElement element) {
+        waitToBeVisible(mealsCaptionList);
         String meal = element.getText();
         logger.info("Meal selected: " + meal);
     }
@@ -164,7 +164,7 @@ public class PopupPage extends BasePage {
         waitToBeVisible(dropdownList);
         WebElement item = getRandomElement(dropDownItems);
         click(item);
-        String bonusMeal = dropdownBtn.getText();
+        String bonusMeal = bonusMealDropdownBtn.getText();
         logger.info("Bonus meal selected: " + bonusMeal);
     }
 
@@ -187,10 +187,9 @@ public class PopupPage extends BasePage {
         return this;
     }
 
-    private PopupPage clickOnYearBtn() {
-        click(datepickerYear);
+    private void clickOnYearBtn() {
+        click(datePickerYear);
         logger.info("Click on year button selection");
-        return this;
     }
 
     public void selectYear() {
@@ -199,10 +198,9 @@ public class PopupPage extends BasePage {
         logger.info("Year selected");
     }
 
-    public PopupPage clickOnMonthBtn() {
-        click(datepickerMonth);
+    public void clickOnMonthBtn() {
+        click(datePickerMonth);
         logger.info("Click on month button selection");
-        return this;
     }
 
     public void selectMonth() {
@@ -220,7 +218,8 @@ public class PopupPage extends BasePage {
         selectYear();
         selectMonth();
         selectDay();
-        logger.info("Date selected");
+        String date = dateInput.getAttribute("value");
+        logger.info("Date selected: " + date);
         return this;
     }
 }

@@ -28,7 +28,7 @@ public class PopupFormTest extends BaseTest {
                 .selectRandomChef()
                 .clickOnMealsSelection()
                 .selectRandomMeals(3)
-                .clickOnDropdownList()
+                .clickOnBonusMealDropdownList()
                 .selectRandomBonusMeal();
     }
 }
