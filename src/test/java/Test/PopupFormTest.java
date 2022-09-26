@@ -37,7 +37,7 @@ public class PopupFormTest extends BaseTest {
 
         String expectedText = "dinner created";
 
-        logger.info("Tekst on alert : " + actualTextFromAlert + " | Expected text: " + expectedText);
+        logger.info("Text on alert : " + actualTextFromAlert + " | Expected text: " + expectedText);
         assertThat(actualTextFromAlert).isEqualTo(expectedText);
     }
 }

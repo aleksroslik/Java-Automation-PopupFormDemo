@@ -19,5 +19,6 @@ public class PopupFormPage extends BasePage {
 
     public void openPopup() {
         click(createBtn);
+        logger.info("Click on 'Create' button");
     }
 }
