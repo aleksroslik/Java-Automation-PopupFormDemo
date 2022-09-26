@@ -1,5 +1,6 @@
 package Page;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -88,6 +89,9 @@ public class PopupPage extends BasePage {
     @FindBy(css = ".o-mday.o-enb")
     private List<WebElement> dpDaysInMonth;
 
+    @FindBy(css = ".awe-okbtn")
+    private WebElement submitBtn;
+
     public PopupPage clickOnBonusMealDropdownList() {
         click(bonusMealDropdownBtn);
         logger.info("Click on Bonus Meal Dropdown");
@@ -160,12 +164,13 @@ public class PopupPage extends BasePage {
         logger.info("Meal selected: " + meal);
     }
 
-    public void selectRandomBonusMeal() {
+    public PopupPage selectRandomBonusMeal() {
         waitToBeVisible(dropdownList);
         WebElement item = getRandomElement(dropDownItems);
         click(item);
         String bonusMeal = bonusMealDropdownBtn.getText();
         logger.info("Bonus meal selected: " + bonusMeal);
+        return this;
     }
 
     public PopupPage setUpName() {
@@ -221,5 +226,19 @@ public class PopupPage extends BasePage {
         String date = dateInput.getAttribute("value");
         logger.info("Date selected: " + date);
         return this;
+    }
+
+    public PopupPage clickSubmitBtn() {
+        waitToBeClickable(submitBtn);
+        click(submitBtn);
+        waitForAlert();
+        return this;
+    }
+
+    public String getTextFromAlert() {
+        Alert alert = driver.switchTo().alert();
+        String text = alert.getText();
+        alert.accept();
+        return text;
     }
 }
